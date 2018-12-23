@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing!</title>
+        <link rel="stylesheet" type="text/css" href="index.css">
+    </head>
+    <body>
+        <table id="ctnr">
+            <thead>
+                <tr>
+                    <th id="td-host">Host</td>
+                    <th id="td-item">Item</td>
+                    <th id="td-time">Last time</td>
+                    <th id="td-msg">Message</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script>
+            var socket = io();
+            let tbody = $("#ctnr tbody");
+            socket.on('ws-table', table => {
+                $(".added-row").remove();
+                tbody.append(table);
+            });
+            socket.on('ws-error', char => {
+                if (char === "f") $("#ctnr").html("<h1>Connection lost</h1>");
+            });
+        </script>
+    </body>
+</html>
